@@ -6,7 +6,29 @@ import NavButton from '../components/navButton.js'
 import Question from '../components/question.js'
 import TopBar from '../components/topBar.js'
 
+import { useState } from 'react'
+
 export default function Home() {
+  const questions = [{ type: '', body: '', choice: '' }, {}, {}]
+
+  const [pagenum, setpagenum] = useState(0)
+
+  function prevpage() {
+    if (pagenum > 0) {
+      setpagenum(pagenum - 1)
+    }
+  }
+
+  function nextpage() {
+    if (pagenum < questions.length) {
+      setpagenum(pagenum + 1)
+    }
+  }
+
+  function submit() {
+    console.log('submit')
+  }
+
   return (
     <div>
       <TopBar />
@@ -16,7 +38,7 @@ export default function Home() {
             <div
               className="customprogressbar_inside"
               style={{
-                width: '50%',
+                width: ((pagenum + 1) / questions.length) * 100 + '%',
               }}
             ></div>
           </div>
@@ -26,7 +48,7 @@ export default function Home() {
                 <div id="wizard_container">
                   <form id="wrapped">
                     <div id="middle-wizard">
-                      <Question />
+                      <Question type="radio" />
                     </div>
                   </form>
                 </div>
@@ -35,7 +57,12 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <NavButton />
+      <NavButton
+        pagenum={pagenum}
+        prevpage={prevpage}
+        nextpage={nextpage}
+        maxpagenum={questions.length - 1}
+      />
     </div>
   )
 }
