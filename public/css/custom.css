@@ -10,4 +10,8 @@
 .customprogressbar_inside {
   height: 10px;
   background-color: rgba(50, 50, 50, 0.3);
+  background-color: #2955a9;
+  opacity: .8;
+  -webkit-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
 }
