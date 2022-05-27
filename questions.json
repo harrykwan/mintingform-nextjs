@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "type": ["sq", "lq", "mc", "cl", "date"],
+  "body": [
+    {
+      "type": "sq",
+      "section": "Artist information",
+      "required": true,
+      "question": "音樂單位名稱"
+    },
+    {
+      "type": "sq",
+      "section": "Artist information",
+      "required": true,
+      "question": "電郵"
+    },
+    {
+      "type": "sq",
+      "section": "Artist information",
+      "required": true,
+      "question": "Social media (Facebook, Instagram, Spotify, YouTube)"
+    },
+    {
+      "type": "sq",
+      "section": "Release Information",
+      "required": true,
+      "question": "Identifier"
+    },
+    {
+      "type": "sq",
+      "section": "Release Information",
+      "question": "Name"
+    },
+    {
+      "type": "sq",
+      "section": "Release Information",
+      "question": "Description"
+    },
+    {
+      "type": "sq",
+      "section": "Release Information",
+      "required": true,
+      "question": "Cover image"
+    },
+    {
+      "type": "sq",
+      "section": "Release Information",
+      "question": "External link (Spotify, YouTube, Indiecast.fm)"
+    },
+    {
+      "type": "other",
+      "section": "Release Information",
+      "required": true,
+      "question": "Royalty percentage"
+    },
+    {
+      "type": "lq",
+      "section": "Song Information",
+      "required": true,
+      "question": "Description"
+    },
+    {
+      "type": "sq",
+      "section": "Song Information",
+      "required": true,
+      "question": "Audio file"
+    },
+    {
+      "type": "sq",
+      "section": "Song Information",
+      "required": true,
+      "question": "External link (Spotify, YouTube, Indiecast.fm)"
+    },
+    {
+      "type": "date",
+      "section": "Song Information",
+      "required": true,
+      "question": "Release date"
+    }
+  ]
+}

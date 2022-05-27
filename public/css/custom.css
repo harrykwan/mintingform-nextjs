@@ -11,7 +11,21 @@
   height: 10px;
   background-color: rgba(50, 50, 50, 0.3);
   background-color: #2955a9;
+  background-color: #e06060;
   opacity: .8;
   -webkit-transition: all 0.3s linear 0s;
   transition: all 0.3s linear 0s;
+}
+
+.customaddbutton{
+  border-radius: 50%;
+  background: #2955a9;
+  color: white;
+  border: 0px solid white;
+}
+
+
+nav{
+  border-bottom-left-radius: 2vw;
+  border-bottom-right-radius: 2vw;
 }
