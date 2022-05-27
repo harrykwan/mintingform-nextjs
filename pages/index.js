@@ -12,7 +12,19 @@ export default function Home() {
   const pagecount = 8;
   const [pagenum, setpagenum] = useState(0);
 
-  const [songdetail, setSongdetail] = useState([
+  const checklistitems = [
+    "Pop",
+    "Jazz",
+    "Blues",
+    "Funk",
+    "EDM",
+    "Country",
+    "Post Rock",
+    "Math Rock",
+    "Alternative Rock",
+  ];
+
+  const songdetailtemplate = (
     <>
       <Question title="歌曲名稱" />
       <Question title="歌曲簡介 " type="lq" />
@@ -25,26 +37,21 @@ export default function Home() {
         title="歌曲連結"
         description="建議提供其他平台如indiecast.fm、Spotify的連結。"
       />
-    </>,
-  ]);
+      <Question title="發佈日期" inputtype="date" />
+      <Question
+        title="音樂類型"
+        checklistitems={checklistitems}
+        type="checkbox"
+      />
+      <Question title="協作者及製作人員" type="customtable2" />
+      <Question title="其他附加資料" type="lq" />
+    </>
+  );
+
+  const [songdetail, setSongdetail] = useState([songdetailtemplate]);
 
   const appendsongdetail = function () {
-    setSongdetail([
-      ...songdetail,
-      <>
-        <Question title="歌曲名稱" />
-        <Question title="歌曲簡介 " type="lq" />
-        <Question
-          title="歌曲封面"
-          description="如您沒有提供封面，Recoroad會使用專輯封面作代替。建議提供其他平台如indiecast.fm、Spotify的連結。"
-        />
-        <Question title="歌曲檔案" />
-        <Question
-          title="歌曲連結"
-          description="建議提供其他平台如indiecast.fm、Spotify的連結。"
-        />
-      </>,
-    ]);
+    setSongdetail([...songdetail, songdetailtemplate]);
   };
 
   function prevpage() {
@@ -187,11 +194,7 @@ export default function Home() {
                             inputtype="number"
                             description="建議定立8 - 15%的版稅分成。"
                           />
-                          <Question
-                            title="版稅分成明細"
-                            type="customtable1"
-                            rowcount={3}
-                          />
+                          <Question title="版稅分成明細" type="customtable1" />
                         </div>
                       )}
                       {pagenum == 5 && (
