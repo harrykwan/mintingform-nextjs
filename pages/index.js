@@ -11,6 +11,28 @@ import { useState } from "react";
 export default function Home() {
   const pagecount = 8;
   const [pagenum, setpagenum] = useState(0);
+  const [formans, setformans] = useState({
+    artist_name: "",
+    artist_email: "",
+    artist_socialmedia: "",
+
+    release_identifier: "",
+    release_name: "",
+    release_description: "",
+    release_coverimg: "",
+    release_externallink: "",
+    release_royality: "",
+    release_walletdistribution: [],
+
+    songs: [],
+  });
+
+  const inputchange = function (name, value) {
+    setformans({
+      ...formans,
+      [name]: value,
+    });
+  };
 
   const checklistitems = [
     "Pop",
@@ -24,34 +46,46 @@ export default function Home() {
     "Alternative Rock",
   ];
 
-  const songdetailtemplate = (
-    <>
-      <Question title="歌曲名稱" />
-      <Question title="歌曲簡介 " type="lq" />
-      <Question
-        title="歌曲封面"
-        description="如您沒有提供封面，Recoroad會使用專輯封面作代替。建議提供其他平台如indiecast.fm、Spotify的連結。"
-      />
-      <Question title="歌曲檔案" />
-      <Question
-        title="歌曲連結"
-        description="建議提供其他平台如indiecast.fm、Spotify的連結。"
-      />
-      <Question title="發佈日期" inputtype="date" />
-      <Question
-        title="音樂類型"
-        checklistitems={checklistitems}
-        type="checkbox"
-      />
-      <Question title="協作者及製作人員" type="customtable2" />
-      <Question title="其他附加資料" type="lq" />
-    </>
-  );
+  const songdetailtemplate = function (index) {
+    return (
+      <>
+        <Question title="歌曲名稱" />
+        <Question title="歌曲簡介 " type="lq" />
+        <Question
+          title="歌曲封面"
+          description="如您沒有提供封面，Recoroad會使用專輯封面作代替。建議提供其他平台如indiecast.fm、Spotify的連結。"
+        />
+        <Question title="歌曲檔案" />
+        <Question
+          title="歌曲連結"
+          description="建議提供其他平台如indiecast.fm、Spotify的連結。"
+        />
+        <Question title="發佈日期" inputtype="date" />
+        <Question
+          title="音樂類型"
+          checklistitems={checklistitems}
+          type="checkbox"
+        />
+        <Question title="協作者及製作人員" type="customtable2" />
+        <Question title="其他附加資料" type="lq" />
+        <Question
+          title="鑄造數量"
+          description="⚠️⚠️⚠️請注意⚠️⚠️⚠️ NFT鑄造成功後，增加供應數量會影響其價值，請仔細考慮發行數量。"
+        />
+        <Question title="鑄造目的地址（加密貨幣錢包地址)" />
+        <Question
+          type="yesno"
+          questionnum={index}
+          title="需要訂立與專輯不同的版稅分成比例嗎？"
+        />
+      </>
+    );
+  };
 
-  const [songdetail, setSongdetail] = useState([songdetailtemplate]);
+  const [songdetail, setSongdetail] = useState([songdetailtemplate(0)]);
 
   const appendsongdetail = function () {
-    setSongdetail([...songdetail, songdetailtemplate]);
+    setSongdetail([...songdetail, songdetailtemplate(setSongdetail.length)]);
   };
 
   function prevpage() {
@@ -162,10 +196,23 @@ export default function Home() {
                       {pagenum == 3 && (
                         <div className="step">
                           <h1 className="mb-4">音樂單位資料</h1>
-                          <Question title="音樂單位名稱" />
-                          <Question title="電郵" />
+                          <Question
+                            customonchange={inputchange}
+                            customvalue={formans.artist_name}
+                            name="artist_name"
+                            title="音樂單位名稱"
+                          />
+                          <Question
+                            customonchange={inputchange}
+                            customvalue={formans.artist_email}
+                            name="artist_email"
+                            title="電郵"
+                          />
                           <Question
                             title="社交媒體連結"
+                            customonchange={inputchange}
+                            customvalue={formans.artist_socialmedia}
+                            name="artist_socialmedia"
                             description="Facebook, Instagram, Spotify, YouTube etc"
                           />
                         </div>
@@ -178,23 +225,48 @@ export default function Home() {
                             photourl="https://lh6.googleusercontent.com/ErqT3zAV-tPlcsyEGk1ofZCewjfQGm34VXZoNkAJn8xwSFsyR-IHYoFSWbmsfsFw6wHbRUOBXLLVmjzQldQfUP785l1p_TL-no6LoU03RoG33LS0fI2D7IedC21i4f8gQg=w740"
                             description="請為您的專輯定立一個獨一無二的序號用作網址的後半段（只接受英文、數字及半形破折號）。日後您能使用這個序號新增歌曲在同一個專輯上。（e.g. 以下為填寫kcl-music的例子）
 "
+                            customonchange={inputchange}
+                            customvalue={formans.release_identifier}
+                            name="release_identifier"
                           />
                           <Question
                             title="專輯名稱"
                             description="請注意OpenSea未能顯示中文名稱，請確認您需要設定成中文。"
+                            customonchange={inputchange}
+                            customvalue={formans.release_name}
+                            name="release_name"
                           />
 
-                          <Question title="專輯簡介" type="lq" />
+                          <Question
+                            title="專輯簡介"
+                            type="lq"
+                            customonchange={inputchange}
+                            customvalue={formans.release_externallink}
+                            name="release_externallink"
+                          />
+
                           <Question
                             title="專輯連結"
                             description="建議提供其他平台如indiecast.fm、Spotify的連結。"
+                            customonchange={inputchange}
+                            customvalue={formans.release_description}
+                            name="release_description"
                           />
                           <Question
                             title="版稅分成比例"
                             inputtype="number"
                             description="建議定立8 - 15%的版稅分成。"
+                            customonchange={inputchange}
+                            customvalue={formans.release_royality}
+                            name="release_royality"
                           />
-                          <Question title="版稅分成明細" type="customtable1" />
+                          <Question
+                            targetarray={formans.release_walletdistribution}
+                            customonchange={inputchange}
+                            targetarrayname="release_walletdistribution"
+                            title="版稅分成明細"
+                            type="customtable1"
+                          />
                         </div>
                       )}
                       {pagenum == 5 && (

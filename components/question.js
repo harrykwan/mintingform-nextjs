@@ -1,31 +1,102 @@
 import { useState } from "react";
 
+const customtable1template = function (
+  customonchange,
+  targetarray,
+  targetarrayname,
+  index
+) {
+  console.log(index);
+  function appendtotargetarray(name, value) {
+    let temptargetarray = targetarray;
+    temptargetarray[index] = temptargetarray[index]
+      ? temptargetarray[index]
+      : {
+          walletid: "",
+          percentage: "",
+        };
+    temptargetarray[index][name] = value;
+    customonchange(targetarrayname, temptargetarray);
+  }
+
+  if (targetarray) {
+    if (!targetarray[index]) {
+      targetarray[index] = {
+        walletid: "",
+        percentage: "",
+      };
+    }
+    console.log(JSON.stringify(targetarray[index]));
+    return (
+      <>
+        <div className="col-9">
+          <input
+            type="text"
+            value={targetarray[index].walletid}
+            name={targetarrayname + "_" + index}
+            onChange={(e) => appendtotargetarray("walletid", e.target.value)}
+            placeholder="wallet id (0x.....)"
+            className="form-control required"
+          />
+        </div>
+        <div className="col-3">
+          <input
+            placeholder="1-100"
+            value={targetarray[index].percentage}
+            name={targetarrayname + "_" + index}
+            onChange={(e) => appendtotargetarray("percentage", e.target.value)}
+            type="number"
+            className="form-control required"
+          />
+        </div>
+      </>
+    );
+  } else return <></>;
+};
+
+const customtable2template = (
+  <>
+    <div className="col-7">
+      <input type="text" placeholder="Name" className="form-control required" />
+    </div>
+    <div className="col-5">
+      <input
+        type="text"
+        placeholder="Position"
+        className="form-control required"
+      />
+    </div>
+  </>
+);
+
 export default function Question(props) {
   const [customtable1array, setCustomtable1array] = useState([
-    <>
-      <div className="col-9">
-        <input type="text" name="name" className="form-control required" />
-      </div>
-      <div className="col-3">
-        <input type="number" name="name" className="form-control required" />
-      </div>
-    </>,
+    customtable1template(
+      props.customonchange,
+      props.targetarray,
+      props.targetarrayname,
+      0
+    ),
+  ]);
+
+  const [customtable2array, setCustomtable2array] = useState([
+    customtable2template,
   ]);
 
   function appendtable1() {
     setCustomtable1array([
       ...customtable1array,
-      <>
-        <div className="col-9">
-          <input type="text" name="name" className="form-control required" />
-        </div>
-        <div className="col-3">
-          <input type="number" name="name" className="form-control required" />
-        </div>
-      </>,
+      customtable1template(
+        props.customonchange,
+        props.targetarray,
+        props.targetarrayname,
+        2
+      ),
     ]);
+  }
 
-    console.log(customtable1array);
+  function appendtable2() {
+    setCustomtable2array([...customtable2array, customtable2template]);
   }
 
   if (props.type == "checkbox") {
@@ -57,30 +128,30 @@ export default function Question(props) {
         </div>
       </>
     );
-  } else if (props.type == "radio") {
+  } else if (props.type == "yesno") {
     return (
       <>
         <div>
-          <h3 className="main_question">
-            <i className="arrow_right" />
-            {props.title}
-          </h3>
+          <label htmlFor="name">{props.title}</label>
+          <div style={{ fontSize: "12px", opacity: "0.7" }}>
+            {props.description}
+          </div>
           <div className="form-group">
             <label className="container_radio version_2">
-              Yes
+              是
               <input
                 type="radio"
-                name="question_2"
                 defaultValue="Yes"
+                name={"yesno_" + props.questionnum}
                 className="required"
               />
               <span className="checkmark" />
             </label>
             <label className="container_radio version_2">
-              No
+              否
               <input
+                name={"yesno_" + props.questionnum}
                 type="radio"
-                name="question_2"
                 defaultValue="No"
                 className="required"
               />
@@ -108,7 +179,9 @@ export default function Question(props) {
             )}
             <textarea
               type="text"
-              name="name"
+              value={props.customvalue}
+              name={props.name}
+              onChange={(e) => props.customonchange(props.name, e.target.value)}
               className="form-control required"
             ></textarea>
           </div>
@@ -142,6 +215,33 @@ export default function Question(props) {
         </div>
       </>
     );
+  } else if (props.type == "customtable2") {
+    return (
+      <>
+        <div>
+          <div className="form-group add_bottom_30">
+            <label htmlFor="name">{props.title}</label>
+            <div style={{ fontSize: "12px", opacity: "0.7" }}>
+              {props.description}
+            </div>
+
+            {customtable2array.map((item, index) => (
+              <div key={index} className="row mt-2">
+                {item}
+              </div>
+            ))}
+
+            <button
+              className="customaddbutton mt-3"
+              type="button"
+              onClick={appendtable2}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </>
+    );
   } else {
     return (
       <>
@@ -163,7 +263,9 @@ export default function Question(props) {
             )}
             <input
               type={props.inputtype ? props.inputtype : "text"}
-              name="name"
+              value={props.customvalue}
+              name={props.name}
+              onChange={(e) => props.customonchange(props.name, e.target.value)}
               className="form-control required"
             />
           </div>
